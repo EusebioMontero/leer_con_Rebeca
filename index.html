@@ -191,6 +191,73 @@ button{font:inherit;color:inherit}
 @keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+/* ---- Ajuste a pantalla única: todo cabe sin hacer scroll ---- */
+html,body{height:100%}
+body{padding-block:8px}
+.app{height:100%;display:flex;flex-direction:column;min-height:0}
+.top{flex:none;padding-block:0 8px}
+.ctl{min-height:44px}
+.stars{min-height:44px;font-size:1.15rem}
+#view{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;overflow-y:auto;overflow-x:hidden}
+#view>*{flex:none}
+#view>.card{flex:1 1 auto}
+#view>.card.fill{min-height:0}
+.card{padding:clamp(10px,2.2vh,24px);border-radius:24px}
+.center{justify-content:center;gap:clamp(6px,1.6vh,14px)}
+.big-emoji{font-size:clamp(3rem,min(22vw,13vh),7.5rem)}
+.msg{min-height:1.3em;font-size:1rem}
+.prompt{font-size:1.05rem}
+.chips{margin:0;gap:6px}
+.chip{min-height:38px;padding:0 14px;font-size:.95rem}
+.dots{margin:0}
+.nav{margin-top:0;align-items:center}
+.posn{font:800 1rem var(--font-display);color:var(--ink-soft)}
+.btn{min-height:50px;padding:0 18px;font-size:1.05rem}
+.fam{margin:0;padding-block:0}
+.label{font-size:1.1rem}
+.label b{font-size:1.4rem}
+.lvline{display:flex;justify-content:space-between;align-items:center;gap:4px 10px;flex-wrap:wrap;font-size:.85rem;color:var(--ink-soft)}
+.lvline .link{padding:2px 4px;font-size:.85rem}
+.confirm{font-size:.9rem}
+.confirm .btn{min-height:40px}
+.levelup{margin:0;padding:8px 12px;font-size:.95rem}
+.note{margin:0;padding:8px 12px;font-size:.9rem}
+/* portada */
+.hero{padding:0}
+.hello{font-size:clamp(1.8rem,min(8vw,5.5vh),3rem)}
+.sub{margin:2px 0 0;font-size:1.05rem}
+.tiles{flex:1;min-height:0;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:10px}
+@media (min-width:640px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+#view>.tiles{flex:1 1 auto}
+.tile{min-height:0;padding:12px;gap:6px;border-radius:22px;overflow:hidden}
+.tile .sample{font-size:clamp(1.2rem,min(5.5vw,3.6vh),2rem)}
+.tile .t-title{font-size:clamp(1rem,min(4.4vw,2.8vh),1.4rem)}
+.tile .t-sub{font-size:.8rem}
+.t-plain{background:var(--surface);color:var(--ink);border:3px solid var(--line)}
+/* pegatinas */
+.alb-title{margin:0;font:800 1.3rem var(--font-display)}
+#view>.stickers{flex:1 1 auto}
+.stickers{min-height:0;overflow:auto;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:6px;align-content:start}
+.stk{aspect-ratio:auto;min-height:58px;padding:4px 2px;gap:0}
+.stk .e{font-size:1.7rem}
+.stk .l{font-size:.62rem}
+.foot{margin-top:0}
+/* actividades */
+.syl-grid{gap:8px}
+.syl-tile{padding:clamp(8px,2vh,18px) 0;font-size:clamp(2rem,min(9vw,8vh),3.6rem)}
+.opts{gap:8px}
+.opt.pic{font-size:clamp(2.4rem,min(14vw,9vh),4rem);padding:clamp(8px,2vh,14px) 4px}
+.sent{font-size:clamp(1.6rem,min(7.5vw,5.2vh),2.8rem);gap:6px 8px}
+.soup{width:min(100%,44vh,440px);gap:3px}
+.cell{font-size:clamp(.95rem,min(4.6vw,3.2vh),1.6rem)}
+.wl{gap:6px}
+.wl li{padding:4px 12px;font-size:1.05rem}
+.slots,.bank{min-height:0;gap:8px}
+.slot,.piece{height:clamp(50px,8vh,64px);min-width:clamp(50px,8vh,64px)}
+.piece{font-size:clamp(1.5rem,min(7vw,4.5vh),2.4rem);padding:0 12px}
+.mem{flex:1;min-height:calc(var(--rows)*60px);grid-template-rows:repeat(var(--rows),minmax(0,1fr))}
+.mc{aspect-ratio:auto;height:100%}
 </style>
 </head>
 <body>
@@ -286,7 +353,7 @@ function award(w){
 }
 function totalStars(){return state.syl.length+state.words.length+state.sent.length+(state.games||0);}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
-function wsize(w){var n=w.length;return n<=4?'clamp(3.4rem,18vw,6.5rem)':n<=6?'clamp(3rem,15vw,5.6rem)':'clamp(2.4rem,12.5vw,4.8rem)';}
+function wsize(w){var n=w.length;return n<=4?'clamp(2.6rem,min(17vw,11vh),6rem)':n<=6?'clamp(2.4rem,min(14vw,9.5vh),5rem)':'clamp(2rem,min(11.5vw,8vh),4.4rem)';}
 
 /* ---------- voz y sonidos ---------- */
 var canSpeak=false,voice=null,cur=null,ac=null;
@@ -419,16 +486,16 @@ function levelChips(simple){
     var open=lvOpen(l[0]);
     return '<button class="chip" data-act="level" data-v="'+l[0]+'" aria-pressed="'+(state.level===l[0])+'"'+(open?'':' disabled aria-label="Nivel '+l[1]+', bloqueado"')+'>'+(open?'':IC.lock)+'<span>'+l[1]+'</span></button>';
   }).join('')+'</div>';
-  if(simple)return chips+'<p class="pos">Subes de nivel leyendo en Palabras y Adivina.</p>';
+  if(simple)return chips;
   var p=lvProgress(state.level),nextName=state.level<3?LEVELS[state.level][1]:null;
-  var line=(nextName&&!lvOpen(state.level+1))?'Te faltan '+(p.need-p.own)+' pegatinas de este nivel para abrir el nivel '+nextName+'.':'Pegatinas de este nivel: '+p.own+' de '+p.total+'.';
-  var reset=screen.confirmLv?
-    '<div class="confirm"><span>¿Volver al nivel Fácil y borrar las pegatinas de palabras?</span><button class="btn" data-act="lv-reset-no">No</button><button class="btn sun" data-act="lv-reset-yes">Sí, reiniciar</button></div>':
-    '<button class="link" data-act="lv-reset">Reiniciar niveles</button>';
-  return banner+chips+'<p class="pos">'+line+'</p><div class="foot lvreset">'+reset+'</div>';
+  var info=(nextName&&!lvOpen(state.level+1))?p.own+' de '+p.need+' para abrir el nivel '+nextName:'Pegatinas del nivel: '+p.own+' de '+p.total;
+  var tail=screen.confirmLv?
+    '<div class="confirm"><span>¿Volver al nivel Fácil y borrar las pegatinas?</span><button class="btn" data-act="lv-reset-no">No</button><button class="btn sun" data-act="lv-reset-yes">Sí</button></div>':
+    '<div class="lvline"><span>'+info+'</span><button class="link" data-act="lv-reset">Reiniciar niveles</button></div>';
+  return banner+chips+tail;
 }
-function navHtml(hasPrev,isLast,primary){
-  return '<div class="nav"><button class="btn" data-act="prev"'+(hasPrev?'':' disabled')+'>'+IC.left+'<span>Atrás</span></button>'+
+function navHtml(hasPrev,isLast,primary,label){
+  return '<div class="nav"><button class="btn" data-act="prev"'+(hasPrev?'':' disabled')+'>'+IC.left+'<span>Atrás</span></button>'+(label?'<span class="posn">'+label+'</span>':'')+
     '<button class="btn'+(primary?' primary':'')+'" data-act="next"><span>'+(isLast?'Terminar':'Siguiente')+'</span>'+IC.right+'</button></div>';
 }
 function noteHtml(){return canSpeak?'':'<p class="note">Este navegador no puede leer en voz alta. Pide a un adulto que lea contigo.</p>';}
@@ -436,34 +503,32 @@ function noteHtml(){return canSpeak?'':'<p class="note">Este navegador no puede 
 function pic(e,show){
   return show?'<div class="big-emoji" aria-hidden="true">'+e+'</div>':'<div class="big-emoji ph" aria-hidden="true"><span>?</span></div>';
 }
+function tileHtml(t){return '<button class="tile '+t[1]+'" data-act="open" data-k="'+t[0]+'"><span class="sample txt">'+t[2]+'</span><span><span class="t-title" style="display:block">'+t[3]+'</span><span class="t-sub">'+t[4]+'</span></span></button>';}
 function vHome(){
   var tiles=[
-    ['syl','t-coral','ma me mi','Sílabas',state.syl.length+' de '+SYL.length+' familias'],
+    ['syl','t-coral','ma me mi','Sílabas',state.syl.length+' de '+SYL.length],
     ['word','t-indigo','ca·sa','Palabras','Nivel '+LEVELS[state.level-1][1]],
-    ['guess','t-sun','¿gato?','Adivina','Lee y busca el dibujo'],
-    ['sent','t-leaf','Mi gato…','Frases',state.sent.length+' de '+SENT.length+' leídas']
-  ];
-  var games=[
-    ['soup','t-indigo','S O L','Sopa de letras','Encuentra las palabras'],
+    ['guess','t-sun','¿gato?','Adivina','Lee y busca'],
+    ['sent','t-leaf','Mi gato…','Frases',state.sent.length+' de '+SENT.length],
+    ['soup','t-indigo','S O L','Sopa de letras','Encuentra palabras'],
     ['build','t-coral','ca + sa','Forma la palabra','Une las piezas'],
-    ['pairs','t-leaf','gato 🐱','Parejas','Busca las parejas']
+    ['pairs','t-leaf','gato 🐱','Parejas','Busca las parejas'],
+    ['album','t-plain',state.words.length+' / '+WORDS.length,'Pegatinas','Mi álbum']
   ];
-  function tileHtml(t){return '<button class="tile '+t[1]+'" data-act="open" data-k="'+t[0]+'"><span class="sample txt">'+t[2]+'</span><span><span class="t-title" style="display:block">'+t[3]+'</span><span class="t-sub">'+t[4]+'</span></span></button>';}
-  var html=noteHtml()+
+  return noteHtml()+
     '<section class="hero"><h1 class="hello">Hola, <button class="name" data-act="say-name" aria-label="Escuchar mi nombre"><span class="s1">Re</span><span class="s2">be</span><span class="s1">ca</span></button></h1>'+
     '<p class="sub">¿Qué quieres leer hoy?</p></section>'+
-    '<div class="tiles">'+tiles.map(tileHtml).join('')+'</div><h2 class="sec">Juegos</h2><div class="tiles">'+games.map(function(t){
-      return '<button class="tile '+t[1]+'" data-act="open" data-k="'+t[0]+'"><span class="sample txt">'+t[2]+'</span><span><span class="t-title" style="display:block">'+t[3]+'</span><span class="t-sub">'+t[4]+'</span></span></button>';
-    }).join('')+'</div>'+
-    '<section class="album"><h2>Mis pegatinas · '+state.words.length+' de '+WORDS.length+'</h2><p class="hint">Ganas una pegatina cada vez que lees una palabra.</p>'+
+    '<div class="tiles">'+tiles.map(tileHtml).join('')+'</div>';
+}
+function vAlbum(){
+  return '<h2 class="alb-title">Mis pegatinas · '+state.words.length+' de '+WORDS.length+'</h2>'+
     '<div class="stickers">'+WORDS.map(function(w){
       var on=state.words.indexOf(w.w)>-1;
-      return '<button class="stk'+(on?' on':'')+'" '+(on?'data-act="say-album" data-w="'+w.w+'" aria-label="'+w.w+'"':'disabled aria-label="Pegatina por ganar"')+'><span class="e" aria-hidden="true">'+w.e+'</span><span class="l txt">'+(on?w.w:'?')+'</span></button>';
-    }).join('')+'</div></section>'+
+      return '<button class="stk'+(on?' on':'')+'" '+(on?'data-act="say-album" data-w="'+w.w+'" aria-label="'+w.w+'"':'disabled aria-label="Pegatina por ganar"')+'><span class="e" aria-hidden="true">'+w.e+'</span>'+(on?'<span class="l txt">'+w.w+'</span>':'')+'</button>';
+    }).join('')+'</div>'+
     '<div class="foot">'+(screen.confirm?
       '<div class="confirm"><span>¿Borrar estrellas y pegatinas?</span><button class="btn" data-act="reset-no">No</button><button class="btn sun" data-act="reset-yes">Sí, borrar</button></div>':
       '<button class="link" data-act="reset">Empezar de cero</button>')+'</div>';
-  return html;
 }
 
 function vSyl(){
@@ -474,7 +539,7 @@ function vSyl(){
     return '<button class="chip'+(d?' done':'')+(k===i?' cur':'')+'" data-act="fam" data-i="'+k+'" aria-label="Familia de la '+x.l+(d?', completa':'')+'"'+(k===i?' aria-current="true"':'')+'><span class="txt">'+x.l+'</span></button>';
   }).join('')+'</div>';
   return fam+'<div class="card center"><p class="label">Con la <b>'+f.l.toUpperCase()+' '+f.l+'</b></p>'+
-    '<div class="syl-grid">'+f.s.map(function(s){
+    '<div class="syl-grid" style="grid-template-columns:repeat('+f.s.length+',minmax(0,1fr))">'+f.s.map(function(s){
       return '<button class="syl-tile txt'+(tapped.indexOf(s)>-1?' tapped':'')+'" data-act="syl-tap" data-s="'+s+'">'+s+'</button>';
     }).join('')+'</div>'+
     '<p class="msg'+(done?' good':'')+'" id="msg" aria-live="polite">'+(done?'Esta familia ya está completa.':'Toca cada sílaba para escucharla.')+'</p>'+
@@ -485,13 +550,13 @@ function vSyl(){
 function vWord(){
   var L=list(),i=screen.i,w=L[i],has=state.words.indexOf(w.w)>-1;
   var msg=screen.earned?'¡Pegatina nueva! Ya está en tu álbum.':(has?'Ya tienes esta pegatina.':'Lee la palabra en voz alta.');
-  return levelChips()+'<p class="pos">'+(i+1)+' de '+L.length+'</p>'+
+  return levelChips()+
     '<div class="card center">'+pic(w.e,screen.reveal||screen.earned)+
     '<div class="pauta"><div class="word txt" style="--wsize:'+wsize(w.w)+'">'+w.s.map(function(s){return '<button class="syl" data-act="say-syl" data-s="'+esc(s)+'">'+s+'</button>';}).join('')+'</div></div>'+
     msgHtml(msg,has)+
     '<div class="row"><button class="btn primary" data-act="say-word">'+IC.speaker+'<span>Escuchar</span></button>'+((screen.reveal||screen.earned)?'':'<button class="btn" data-act="reveal">Pista</button>')+
     readBtns(has)+'</div></div>'+
-    navHtml(i>0,i===L.length-1,has);
+    navHtml(i>0,i===L.length-1,has,(i+1)+' / '+L.length);
 }
 
 function newGuess(){
@@ -531,13 +596,13 @@ function vSent(){
   var i=screen.i,s=SENT[i],has=state.sent.indexOf(s.t)>-1;
   var words=s.t.split(' ');
   var msg=screen.earned?'¡Muy bien, Rebeca! Ganaste una estrella.':(has?'Ya leíste esta frase.':'Lee la frase en voz alta.');
-  return '<p class="pos">'+(i+1)+' de '+SENT.length+'</p>'+
+  return ''+
     '<div class="card center">'+pic(s.e,screen.reveal||screen.earned)+
     '<div class="sent txt" id="sent">'+words.map(function(w){return '<button class="w" data-act="say-w" data-w="'+esc(w.replace(/[.,!?¡¿]/g,''))+'">'+w+'</button>';}).join('')+'</div>'+
     msgHtml(msg,has)+
     '<div class="row"><button class="btn primary" data-act="say-sent">'+IC.speaker+'<span>Escuchar la frase</span></button>'+((screen.reveal||screen.earned)?'':'<button class="btn" data-act="reveal">Pista</button>')+
     readBtns(has)+'</div></div>'+
-    navHtml(i>0,i===SENT.length-1,has);
+    navHtml(i>0,i===SENT.length-1,has,(i+1)+' / '+SENT.length);
 }
 
 /* ---------- juegos ---------- */
@@ -607,7 +672,7 @@ function vSoup(){
     cells+='<button class="cell'+(f!==undefined?' f'+(f%4):'')+(st?' st':'')+(h?' hint':'')+'" data-act="soup-tap" data-r="'+r+'" data-c="'+c+'" aria-label="Letra '+s.g[r][c]+'">'+s.g[r][c]+'</button>';
   }
   var list=s.words.map(function(w){var f=s.found[w]!==undefined;return '<li class="'+(f?'found f'+(s.found[w]%4):'')+'"><span class="txt">'+w+'</span></li>';}).join('');
-  return levelChips(true)+'<div class="card center"><p class="prompt">Encuentra las palabras</p>'+
+  return levelChips(true)+'<div class="card center">'+
     '<div class="soup" style="--n:'+s.n+'">'+cells+'</div><ul class="wl" aria-label="Palabras que buscar">'+list+'</ul>'+
     '<p class="msg'+(s.done?' good':'')+'" id="msg" aria-live="polite">'+(s.msg||'Toca la primera letra y después la última.')+'</p>'+
     '<div class="row">'+(s.done?'':'<button class="btn" data-act="soup-hint">Pista</button>')+'<button class="btn'+(s.done?' primary':'')+'" data-act="soup-new">Otra sopa</button></div></div>';
@@ -656,13 +721,13 @@ function vPairs(){
     var inner=up?(c.kind==='w'?'<span class="txt">'+c.w.w+'</span>':c.w.e):'?';
     return '<button class="mc'+(up?' up':'')+(ok?' ok':'')+(c.kind==='w'?' wd':' pi')+'" data-act="m-flip" data-id="'+c.id+'"'+((up||m.locked)?' disabled':'')+' aria-label="'+(up?(c.kind==='w'?c.w.w:'Dibujo'):'Carta boca abajo')+'">'+inner+'</button>';
   }).join('');
-  return levelChips(true)+'<div class="card center"><p class="prompt">Une cada palabra con su dibujo</p>'+
-    '<div class="mem" style="--cols:'+m.cols+'">'+cards+'</div>'+
+  return levelChips(true)+'<div class="card center fill"><p class="prompt">Une cada palabra con su dibujo</p>'+
+    '<div class="mem" style="--cols:'+m.cols+';--rows:'+Math.ceil(m.cards.length/m.cols)+'">'+cards+'</div>'+
     '<p class="msg'+(m.done?' good':'')+'" id="msg" aria-live="polite">'+(m.done?'¡Encontraste todas las parejas! Ganaste una estrella.':'Intentos: '+m.moves)+'</p>'+
     '<div class="row"><button class="btn'+(m.done?' primary':'')+'" data-act="m-new">Otra partida</button></div></div>';
 }
 
-var VIEWS={home:vHome,syl:vSyl,word:vWord,guess:vGuess,sent:vSent,soup:vSoup,build:vBuild,pairs:vPairs};
+var VIEWS={home:vHome,syl:vSyl,word:vWord,guess:vGuess,sent:vSent,soup:vSoup,build:vBuild,pairs:vPairs,album:vAlbum};
 function render(){
   if(!lvOpen(state.level))state.level=1;
   $('#view').innerHTML=VIEWS[screen.name]();
@@ -713,6 +778,7 @@ var A={
     if(k==='syl')go('syl',{i:firstUndone(SYL,function(f){return state.syl.indexOf(f.l)>-1;}),tapped:[]});
     else if(k==='word')go('word',{i:0});
     else if(k==='guess')go('guess',{g:newGuess()});
+    else if(k==='album')go('album');
     else if(k==='soup')go('soup',{s:makeSoup()});
     else if(k==='build')go('build',{b:newBuild()});
     else if(k==='pairs')go('pairs',{m:newPairs()});
