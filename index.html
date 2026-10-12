@@ -366,6 +366,26 @@ body{padding-block:8px}
   .stk{min-height:36px}
   .stk .e{font-size:1.2rem}
 }
+
+/* ---- Sílabas: las piezas llenan la tarjeta ---- */
+.card:has(>.syl-grid){justify-content:flex-start}
+.syl-grid{flex:1 1 auto;min-height:0;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:minmax(0,min(200px,24vh));align-content:center;gap:10px}
+.syl-tile{grid-column:span var(--sp,2);height:100%;padding:0;font-size:clamp(2.4rem,min(12vw,9vh),5.5rem);display:flex;align-items:center;justify-content:center}
+@media (min-aspect-ratio:13/10){
+  .syl-grid{grid-template-columns:repeat(var(--n),minmax(0,1fr));grid-auto-rows:minmax(0,min(200px,34vh))}
+  .syl-tile{grid-column:auto;font-size:clamp(2.2rem,min(8vw,14vh),5.5rem)}
+}
+/* ---- Horizontal: la botonera de la derecha reparte todo el alto ---- */
+@media (min-aspect-ratio:13/10){
+  #view>.fam{grid-row:1/4;align-self:stretch;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(5,minmax(0,1fr));gap:8px;align-content:stretch}
+  #view>.fam .chip{height:100%;min-height:0;padding:0;font-size:clamp(1.2rem,4.2vh,2rem)}
+  #view>.nav .btn{min-height:clamp(44px,9vh,64px)}
+}
+@media (min-aspect-ratio:13/10) and (max-height:420px){
+  #view>.nav .btn{min-height:40px}
+  #view>.fam{gap:5px}
+}
+@media (max-aspect-ratio:13/10) and (max-height:660px){.fam .chip{min-height:28px}.fam{gap:3px}#view{gap:6px}}
 </style>
 </head>
 <body>
@@ -384,7 +404,7 @@ body{padding-block:8px}
 (function(){
 'use strict';
 var KEY='leo-con-rebeca-v1';
-var VERSION='1.0';
+var VERSION='1.1';
 
 /* ---------- contenido ---------- */
 var SYL=[
@@ -649,8 +669,9 @@ function vSyl(){
     return '<button class="chip'+(d?' done':'')+(k===i?' cur':'')+'" data-act="fam" data-i="'+k+'" aria-label="Familia de la '+x.l+(d?', completa':'')+'"'+(k===i?' aria-current="true"':'')+'><span class="txt">'+x.l+'</span></button>';
   }).join('')+'</div>';
   return fam+'<div class="card center"><p class="label">Con la <b>'+f.l.toUpperCase()+' '+f.l+'</b></p>'+
-    '<div class="syl-grid" style="grid-template-columns:repeat('+f.s.length+',minmax(0,1fr))">'+f.s.map(function(s){
-      return '<button class="syl-tile txt'+(tapped.indexOf(s)>-1?' tapped':'')+'" data-act="syl-tap" data-s="'+s+'">'+s+'</button>';
+    '<div class="syl-grid" style="--n:'+f.s.length+'">'+f.s.map(function(s,k){
+      var sp=(f.s.length===5&&k>2)?3:2;
+      return '<button class="syl-tile txt'+(tapped.indexOf(s)>-1?' tapped':'')+'" style="--sp:'+sp+'" data-act="syl-tap" data-s="'+s+'">'+s+'</button>';
     }).join('')+'</div>'+
     '<p class="msg'+(done?' good':'')+'" id="msg" aria-live="polite">'+(done?'Esta familia ya está completa.':'Toca cada sílaba para escucharla.')+'</p>'+
     '<div class="row"><button class="btn primary" data-act="say-fam">'+IC.speaker+'<span>Escuchar todas</span></button></div></div>'+
